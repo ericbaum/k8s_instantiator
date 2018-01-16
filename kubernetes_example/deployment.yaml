@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: k8s-example
+  name: k8s-example
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: k8s-example
+    spec:
+      containers:
+      - image: k8s-example
+        imagePullPolicy: Never
+        name: k8s-example
+        env:
+        - name: KUBE_NAMESPACE
+          value: dojot
+      restartPolicy: Always
+      serviceAccountName: k8s-example
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: k8s-example
+  name: k8s-example
+spec:
+  ports:
+  - port: 8081
+    targetPort: 8081
+  selector:
+    name: k8s-example
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: k8s-example
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: k8s-example-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "deployments"]
+  verbs: ["get", "list"]
+- apiGroups: ["extensions", "apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: k8s-example-role-binding
+subjects:
+- kind: ServiceAccount
+  name: k8s-example
+roleRef:
+  kind: Role
+  name: k8s-example-role
+  apiGroup: rbac.authorization.k8s.io

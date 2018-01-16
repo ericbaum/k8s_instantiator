@@ -1,0 +1,22 @@
+{
+  "name": "k8s_instantiator",
+  "version": "0.0.1",
+  "description": "Kubernetes Intantiator PoC",
+  "main": "src/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericbaum/k8s_instantiator.git"
+  },
+  "dependencies": {
+    "node-kubernetes-client": "^0.3.2",
+    "express": "^4.16.2"
+  },
+  "author": "Eric Baum <ebaum@cpqd.com.br>",
+  "bugs": {
+    "url": "https://github.com/ericbaum/k8s_instantiator/issues"
+  },
+  "homepage": "https://github.com/ericbaum/k8s_instantiator",
+  "scripts": {
+    "start": "nodejs src/main.js"
+  }
+}
